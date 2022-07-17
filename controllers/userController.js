@@ -36,9 +36,16 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   addFriend(req, res) {
-    User.findOne({ _id: req.params.userId })
+    User.findOneAndUpdate({ _id: req.params.userId }, {$push:{friends: req.params.friendId}},{new:true})
     .then((user) => {
-      const friendArray = user.friends
+    res.status(200).json(user)
+    })
+    .catch((err) => res.status(500).json(err));
+  },
+  deleteFriend(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId }, {$pull:{friends: req.params.friendId}},{new:true})
+    .then((user) => {
+    res.status(200).json(user)
     })
     .catch((err) => res.status(500).json(err));
   }

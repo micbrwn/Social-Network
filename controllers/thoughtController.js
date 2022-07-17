@@ -4,7 +4,9 @@ module.exports = {
   getThought(req, res) {
     Thought.find()
       .then((thoughts) => res.json(thoughts))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err)});
   },
   // Gets a single thought using the findOneAndUpdate method. We pass in the ID of the thought and then respond with it, or an error if not found
   getSingleThought(req, res) {
@@ -14,7 +16,7 @@ module.exports = {
           ? res.status(404).json({ message: 'No thought with that ID' })
           : res.json(thought)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) =>res.status(500).json(err));
   },
   // Creates a new thought. Accepts a request body with the entire Thought object.
   // Because applications are associated with Users, we then update the User who created the app and add the ID of the thought to the applications array
@@ -22,8 +24,8 @@ module.exports = {
     Thought.create(req.body)
       .then((thought) => {
         return User.findOneAndUpdate(
-          { _id: req.body.userId },
-          { $addToSet: { applications: thought._id } },
+          { _id: req.body.username },
+          { $addToSet: { thoughts: thought._id } },
           { new: true }
         );
       })
@@ -82,7 +84,7 @@ module.exports = {
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $addToSet: { reaction: req.body } },
+      { $addToSet: { reactions: req.body } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
@@ -96,8 +98,8 @@ module.exports = {
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { reaction: { reactionId: req.params.tagId } } },
-      { runValidators: true, new: true }
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { new: true }
     )
       .then((thought) =>
         !thought

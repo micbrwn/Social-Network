@@ -14,7 +14,7 @@ const reactionSchema = new Schema(
             maxlegnth: 280,
         },
         username: {
-                type: String,
+                type: Schema.Types.ObjectId,
                 required: true,
             },
         createdAt: {
@@ -35,5 +35,8 @@ const reactionSchema = new Schema(
 function getDate(date) {
     return date;
 }
+// reactionSchema.virtual('reactionCount').get(function () {
+//     return this.reacitons.length;
+// });
 
 module.exports = reactionSchema;

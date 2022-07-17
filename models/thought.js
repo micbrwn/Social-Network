@@ -12,30 +12,33 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: getDate,
+      // get: createdAt,
     },
-    usernamer: {
-      type: String,
+    username: {
+      type: Schema.Types.ObjectId,
       required: true,
+      ref: "user"
     },
     reactions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Reaction',
-      },
+      Reaction
     ],
   },
   {
     toJSON: {
-      getters: true,
+      virtuals: true,
+     getters: true,
     },
     id: false,
   }
 );
 
-function getDate(date) {
-  return this.createdAt;
-}
+// function getDate(createdAt) {
+//  return createdAt;
+// }
+
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
 
 const Thought = model("thought", thoughtSchema);
 
