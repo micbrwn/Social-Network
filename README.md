@@ -66,11 +66,13 @@ No tests are needed for this application
 
 ## Screenshots
 
-![Screenshot]()
+![Screenshot](./assets/images/Screen%20Shot%202022-07-17%20at%206.03.58%20PM.png)
+
+![Screenshot](./assets/images/Screen%20Shot%202022-07-17%20at%206.04.13%20PM.png)
 
 
 ## Screencastify URL
 
-[Insomnia Demo]()
+[Insomnia Demo](https://watch.screencastify.com/v/iVa4JwHZinWPF2RRzz33)
 
  
